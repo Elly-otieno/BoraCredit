@@ -23,3 +23,4 @@ urlpatterns = [
     path('', include('users.urls')),
     path('', include('repayment.urls'))
 ]
+ 
