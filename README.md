@@ -16,27 +16,35 @@ The app as at now supports user registration, authentication, loan requests, loa
 ## Authentication
 All endpoints require authentication using **DRF Token Authentication**.
 
-Include the token in the request header: **Authorization: Token <your_token>**
+Include the token in the request header: **Authorization: Token <token>**
 
 ---
 
 ## Endpoints
 
 ### User Endpoints
-- `POST /users/register/` - Register a new user
-- `POST /users/login/` - Login and receive token
-- `POST /users/logout/` - Logout (invalidate token)
+- `POST /users/api/register/` - Register a new user
+- `POST /users/api/login/` - Login and receive token
+- `POST /users/api/profile/` - Display user profile
+- `POST /users/api/logout/` - Logout (invalidate token)
 
 ---
 
 ### Loan Endpoints
 - `POST /loans/request/` - Borrower requests a loan.  
-  
+- `POST /loans/loan/<int:pk>/approve/` - Admin approves a loan request.
+
+---
+
+### Repayments Endpoints
+- `POST /repayment/repayments/` - Make payments.
+- `POST /repayment/loans/<int:pk>/repayments/` - Repayment history.
+
 ---
 
 ## SetUp
 
-`
+<!-- `
 git clone https://github.com/Elly-otieno/boracredit.git
 cd boracredit
 
@@ -59,3 +67,6 @@ python manage.py startapp users
 Deployed on PythonAnywhere
 
 pip install whitenoise
+git clone https://github.com/Elly-otieno/BoraCredit.git
+mkvirtualenv env
+pip install -r requirements.txt -->
