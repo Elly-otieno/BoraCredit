@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import UserProfile
 from django.contrib.auth.models import User
+from loans.serializers import LoanSerializer
+from repayment.serializers import RepaymentSerializer
 
 class RegisterUserSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(write_only=True)
@@ -49,6 +51,13 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         return user
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    loans = LoanSerializer(source="user.loans", many=True, read_only=True)
+
+    # Custom analytics fields
+    total_loans = serializers.SerializerMethodField()
     class Meta:
         model = UserProfile
-        fields = ['id', 'user', 'full_name', 'phone_number', 'address', 'national_id', 'employment_status' ]
+        fields = ['id', 'user', 'full_name', 'phone_number', 'address', 'national_id', 'employment_status', 'loans', 'total_loans' ]
+
+    def get_total_loans(self, obj):
+        return obj.user.loans.count()

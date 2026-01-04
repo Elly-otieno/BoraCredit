@@ -18,7 +18,7 @@ class RepaymentListCreateView(generics.ListCreateAPIView):
         user=self.request.user
         if IsAdminUser().has_permission(self.request, self):
             return Repayment.objects.all()
-        return Repayment.objects.filter(loan_user=user)
+        return Repayment.objects.filter(loan__user=user)
     
     def perform_create(self, serializer):
         loan = serializer.validated_data['loan']
@@ -27,7 +27,7 @@ class RepaymentListCreateView(generics.ListCreateAPIView):
         serializer.save()
 
 @api_view(['GET'])
-@permission_classes(permissions.IsAuthenticated)
+@permission_classes([permissions.IsAuthenticated])
 def loan_repayments(request, pk):
     loan = Loan.objects.get(pk=pk, user=request.user)
     repayments = loan.repayments.all()
@@ -36,7 +36,7 @@ def loan_repayments(request, pk):
         "loan_id":loan.id,
         "principal":loan.principal_amount,
         "status":loan.status,
-        "current_balance":loan.current_balalance,
+        "current_balance":loan.current_balance,
         "repayments":serializer.data
     }, status = status.HTTP_200_OK)
 

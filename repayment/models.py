@@ -1,5 +1,5 @@
 from django.db import models
-from loans.models import Loan
+from loans.models import Loan, LoanStatus
 from django.core.exceptions import ValidationError
 
 # Create your models here.

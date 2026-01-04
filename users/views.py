@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import FormView
 from django.contrib.auth import login
 from rest_framework import generics, permissions
-from .serializers import RegisterUserSerializer
+from .serializers import RegisterUserSerializer, UserProfileSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
@@ -13,6 +13,7 @@ from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from rest_framework.authentication import TokenAuthentication
+from .models import UserProfile
 
 
 
@@ -87,3 +88,12 @@ class LogoutAPIView(APIView):
             'detail':'Successfully logged out',
             'message':'User is logged out'
         }, status=status.HTTP_200_OK)
+
+
+class UserProfileAPIView(generics.RetrieveAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user.profile

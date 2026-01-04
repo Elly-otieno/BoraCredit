@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics, permissions
 from .models import Loan
-from .serializers import LoanSerializer
+from .serializers import LoanSerializer, LoanApprovalSerializer
 from .permissions import IsAdminUser
 
 
@@ -15,9 +15,9 @@ class LoanRequestView(generics.CreateAPIView):
 
 
 class LoanApprovalView(generics.UpdateAPIView):
-    serializer_class = LoanSerializer
+    serializer_class = LoanApprovalSerializer
     queryset = Loan.objects.all()
     permission_classes = [permissions.IsAuthenticated, IsAdminUser]
 
-    def perform_create(self, serializer):
+    def perform_update(self, serializer):
         serializer.save(status="Active")
