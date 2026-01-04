@@ -52,3 +52,10 @@ python manage.py startapp loans
 python manage.py startapp repayment
 
 python manage.py startapp users
+
+
+## Deployment
+
+Deployed on PythonAnywhere
+
+pip install whitenoise
